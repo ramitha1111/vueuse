@@ -1,3 +1,10 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 3 optimizations:
+# - [MEDIUM] Add concurrency group to "ci.yml"
+# - [MEDIUM] 3 jobs clone the repo — consider artifact sharing
+# - [LOW] Use shallow clone in "release-pr" job
+# Estimated savings: ~3 min/run
+#
 name: CI
 
 on:
@@ -14,6 +21,10 @@ on:
 
   merge_group: {}
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   id-token: write
   contents: read
